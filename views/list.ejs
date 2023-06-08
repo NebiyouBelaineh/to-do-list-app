@@ -1,0 +1,32 @@
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <h1 id="listTitle"> <%= listTitle %> </h1>
+  </div>
+  <!-- Nav Bar -->
+  <div >
+    <form action="">
+      <a class="navi" href="/about">About App</a>
+    </form>
+  </div>
+
+  <div class="box">
+    <form action="/delete" method="post">
+      <% newlistItems.forEach(element => {%>
+        <div class="item">
+          <input type="checkbox" onchange="this.form.submit()" name= "checkbox[]" value= "<%=listTitle%>  <%=element._id%>" >
+          <p><%= element.name  %></p>
+        </div>
+        <% }) %>
+    </form>
+    
+      
+      
+
+      <form class="item" action="/" method="post">
+        <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+        <button type="submit" name="list" value="<%=listTitle%>">+</button>
+      </form>
+  </div>
+
+<%- include("footer") -%>
