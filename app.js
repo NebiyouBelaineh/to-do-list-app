@@ -18,7 +18,14 @@ app.use(express.static("public"));
 
 function main() {
   return new Promise((resolve, reject) => {
-    mongoose.connect("mongodb+srv://"+mongoDB_USR_N+":"+mongoDB_PWD+"@cluster0.pqux9bb.mongodb.net/todolistDB")
+    mongoose
+      .connect(
+        "mongodb+srv://" +
+          mongoDB_USR_N +
+          ":" +
+          mongoDB_PWD +
+          "@cluster0.pqux9bb.mongodb.net/todolistDB"
+      )
 
       .then(() => {
         const itemSchema = new mongoose.Schema({
@@ -72,31 +79,34 @@ function setupRoutes(Item, List, defaultItems) {
   app.get("/:customListName", function (req, res) {
     const customListName = req.params.customListName;
     const listName = _.capitalize(customListName);
-
-    List.findOne({ name: listName })
-      .then(function (foundList) {
-        //Check if the list exists
-        if (!foundList) {
-          const list = new List({
-            name: listName,
-            items: defaultItems,
-          });
-          list.save();
-          res.redirect("/" + listName);
-        } else {
-          if (foundList.length === 0) {
-          } else {
-            //if the list exists
-            res.render("list", {
-              listTitle: listName,
-              newlistItems: foundList.items,
+    if (listName === "About") {
+      res.render("about");
+    } else {
+      List.findOne({ name: listName })
+        .then(function (foundList) {
+          //Check if the list exists
+          if (!foundList) {
+            const list = new List({
+              name: listName,
+              items: defaultItems,
             });
+            list.save();
+            res.redirect("/" + listName);
+          } else {
+            if (foundList.length === 0) {
+            } else {
+              //if the list exists
+              res.render("list", {
+                listTitle: listName,
+                newlistItems: foundList.items,
+              });
+            }
           }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   });
 
   app.get("/", function (req, res) {

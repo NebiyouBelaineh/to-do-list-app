@@ -114,7 +114,7 @@ footer {
 .about-style{
   display: block;
   background-color: #3f2a52;
-  max-width: 800px;
+  max-width: 70%;
   margin: 50px auto;
   border-radius: 5px;
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.8);
@@ -123,4 +123,6 @@ footer {
 }
 .about-style p,h2{
   color: #F1F1F1;
+  font-size: 2.1rem;
+
 }
